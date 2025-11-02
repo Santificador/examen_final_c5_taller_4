@@ -1,140 +1,86 @@
-# ☕ Proyecto Java EDD - Gestión de Clientes y Ventas para Cafetería
+# 📘 Proyecto Final – Desarrollo de APIs con Quarkus
 
-Este proyecto ha sido desarrollado como parte de la **Evaluación Continua de los módulos de Programación y Entornos de Desarrollo** del ciclo de Desarrollo de Aplicaciones Multiplataforma (DAM).
-
-El objetivo principal es crear una aplicación en Java, con interfaz de consola, que permita llevar la gestión básica de un pequeño negocio (en este caso, una tienda de café), incorporando prácticas profesionales como:
-
-- Control de versiones con Git y GitHub
-- Estructura modular y clara del código
-- Documentación técnica con Javadoc
-- Pruebas unitarias con JUnit
-- Gestión de dependencias con Maven
-
-La aplicación está diseñada para gestionar:
-- Clientes
-- Productos (cafés)
-- Ventas asociadas
+## 👨‍💻 Autor  
+**Nombre:** Eduardo Lezcano  
+**Curso:** Desarrollo de APIs con Quarkus  
+**Fecha:** Octubre 2025  
 
 ---
 
-## 📋 Funcionalidades implementadas
+## 1️⃣ Objetivo del Proyecto
 
-A continuación se detallan las funcionalidades obligatorias desarrolladas en este proyecto:
+Este sistema permite gestionar las operaciones principales de una cafetería:
 
-### 👤 Gestión de clientes
-- Alta de nuevos clientes
-- Baja de clientes existentes
-- Modificación de datos de un cliente
-- Búsqueda de clientes por DNI
-- Listado completo de clientes registrados
-
-### ☕ Gestión de productos (cafés)
-- Alta de productos disponibles en la tienda
-- Listado general del catálogo de cafés
-- Búsqueda de productos por especie
-
-### 💰 Gestión de ventas
-- Creación de nuevas ventas:
-  - Selección de cliente existente
-  - Añadir uno o más cafés del catálogo
-- Visualización de todas las ventas realizadas
-- Visualización de ventas por cliente
-- Cálculo y muestra del importe total de cada venta
+- Administración de productos (tipos de café)  
+- Registro y gestión de clientes  
+- Creación y seguimiento de facturas de venta  
 
 ---
 
-## 🛠 Requisitos técnicos
+## 2️⃣ Pasos a Seguir
 
-- Java JDK 17 o superior
-- IntelliJ IDEA (recomendado)
-- Git instalado y configurado
-- Maven (para gestión de dependencias y testing)
+### 🔹 Paso 1 – Definir el Tema
 
----
+**Tema elegido:** *Sistema de Ventas de Café*
 
-## 🗂 Estructura del proyecto
+**Procesos principales:**
 
-La estructura del repositorio sigue el estándar Maven y mantiene una separación clara entre código, pruebas y configuración:
-
-```text
-Proyecto-Java-EDD/
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── com/tiendacafe/... ← Código fuente principal
-│   └── test/
-│       └── java/
-│           └── com/tiendacafe/... ← Pruebas unitarias (JUnit)
-├── pom.xml         ← Configuración de Maven
-├── README.md       ← Este archivo
-
-```
-
-## 🌿 Estrategia de ramas Git
-
-Este proyecto utiliza una estrategia de ramas profesional para facilitar el trabajo modular y evitar conflictos.
-
-### 🔀 Ramas principales
-
-- **`main`**  
-  Rama estable. Contiene versiones funcionales listas para entrega.
-
-- **`dev`**  
-  Rama de desarrollo general. Aquí se integran las funcionalidades probadas de las ramas `feature/*`.
-
-### 🌱 Ramas por funcionalidad (`features-*`)
-
-Cada funcionalidad principal del proyecto se desarrolla en su propia rama:
-
-- **`features-cliente`**
-  - Clase `Cliente.java`
-  - Pruebas unitarias en `ClienteTest.java`
-  - Javadoc generado para Cliente
-
-- **`features-cafe`**
-  - Clase `Cafe.java`
-  - Pruebas unitarias en `CafeTest.java`
-  - Javadoc generado para Cafe
-
-- **`features-venta`**
-  - Clase `Venta.java`
-  - Pruebas unitarias en `VentaTest.java`
-  - Javadoc generado para Venta
-
-- **`features-menu`**
-  - Clase principal que contiene el menú interactivo
-  - Coordinación de navegación entre funcionalidades
-
-### 🔁 Flujo de trabajo
-
-1. Se desarrolla una funcionalidad en su rama `features-*`.
-2. Una vez completada y probada, se fusiona con `dev`.
-3. Cuando `dev` está estable, se fusiona con `main`.
+1. Gestión de Productos (Café)  
+2. Gestión de Clientes  
+3. Registro de Ventas (Facturación)  
 
 ---
 
-## 📚 Documentación técnica (Javadoc)
+### 🔹 Paso 2 – Diseñar el DER
 
-Este proyecto incluye documentación técnica generada con Javadoc.
+#### 🧱 Entidades principales
 
-### 📄 Cómo acceder
+##### 📦 `productos`
+- `id_cafe` (PK) – `int(11)`  
+- `nombre_cafe` – `VARCHAR(22)`  
+- `descripcion_cafe` – `VARCHAR(100)`  
+- `precio_cafe` – `DOUBLE`  
+- `origen_cafe` – `VARCHAR(22)`  
+- `tipo_tostado` – `INT(22)`  
 
-- Abre el archivo:  
-  `docs/index.html`
+##### 👤 `clientes`
+- `id_cliente` (PK) – `int(11)`  
+- `nombre` – `VARCHAR(100)`  
+- `apellido` – `VARCHAR(100)`  
+- `email` – `VARCHAR(100)`  
+- `telefono` – `VARCHAR(20)`  
+- `direccion` – `VARCHAR(255)`  
 
-- O accede directamente a la clase `Cliente`:  
-  `docs/com/tiendacafe/Cliente.html`
+##### 🧾 `facturas`
+- `id_factura` (PK) – `int(11)`  
+- `id_cliente` (FK) – `int(11)`  
+- `cantidad_ventas` – `int(11)`  
+- `precio_unitario_ventas` – `int(11)`  
+- `monto_total` – `DOUBLE`  
+- `fecha` – `DATE`  
 
-> Si abres `index.html`, podrás navegar por toda la documentación del proyecto.
+---
 
-### 🛠 Cómo regenerar la documentación (opcional)
+#### 🔗 Relaciones
 
-Desde IntelliJ IDEA:
+- `clientes` 1:N `facturas` → Un cliente puede tener muchas facturas  
+- `facturas` 1:N `detalles_factura` → Una factura tiene muchos detalles  
+- `productos` 1:N `detalles_factura` → Un producto puede estar en muchos detalles  
 
-1. Ve al menú `Tools` → `Generate JavaDoc...`
-2. Selecciona `Whole project`
-3. Define el directorio de salida como `./docs`
-4. Pulsa `Generate`
+---
 
+### 🧑‍🏫 Buenas prácticas
 
+- Tablas en **plural**: `usuarios`, `libros`, `reservas`  
+- Columnas con prefijo `id_` para claves primarias: `id_usuario`, `id_libro`  
+- Campos de auditoría recomendados: `created_at`, `updated_at`  
 
+### 🧑‍🏫 tarea de asistencia del dia 20/10
+
+Cobertura de Endpoints
+
+Implementar los CRUDs para todas las entidades que aún no fueron desarrolladas en el parcial.
+
+Asegurar que todas las relaciones entre entidades (1:N, N:M, etc.) sean correctamente gestionadas desde los endpoints correspondientes.
+
+Los endpoints deben seguir el mismo formato, estructura y convenciones REST utilizadas en el parcial.
